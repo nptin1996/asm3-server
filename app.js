@@ -30,7 +30,11 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 app.use(compression());
 // app.use(morgan("combined", { stream: accessLogStream }));
 
