@@ -16,6 +16,7 @@ const orderRouter = require("./routes/order");
 const app = express();
 
 require("dotenv").config();
+
 app.use(
   cors({
     origin: ["http://localhost:3000", "http://localhost:3001"], // Các domain được phép truy cập
@@ -30,14 +31,14 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
+// const accessLogStream = fs.createWriteStream(
+//   path.join(__dirname, "access.log"),
+//   { flags: "a" }
+// );
 
-app.use(helmet());
-app.use(compression());
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(helmet());
+// app.use(compression());
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(
   session({
@@ -46,7 +47,7 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, //thời gian tồn tại của cookie là 1 ngày
+      maxAge: 3 * 24 * 60 * 60 * 1000, //thời gian tồn tại của cookie là 1 ngày
     },
   })
 );
@@ -82,6 +83,6 @@ main()
   .then(() => {
     const server = app.listen(process.env.PORT || 5000);
     const io = require("./socket").init(server);
-    io.on("connection");
+    io.on("connection", () => {});
   })
   .catch((err) => console.log(err));
