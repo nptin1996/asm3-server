@@ -15,15 +15,15 @@ const chatRouter = require("./routes/chat");
 const orderRouter = require("./routes/order");
 const app = express();
 
-require("dotenv").config();
+// require("dotenv").config();
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"], // Các domain được phép truy cập
-    methods: "GET,PUT,PATCH,POST,DELETE",
-    credentials: true, // Cho phép gửi cookie
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:3000", "http://localhost:3001"], // Các domain được phép truy cập
+//     methods: "GET,PUT,PATCH,POST,DELETE",
+//     credentials: true, // Cho phép gửi cookie
+//   })
+// );
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
