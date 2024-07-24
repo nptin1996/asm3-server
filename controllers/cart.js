@@ -26,6 +26,7 @@ exports.postCart = async function (req, res, next) {
   }
   const productId = req.body.productId;
   const qty = req.body.qty;
+
   try {
     const product = await Product.findById(productId);
     if (!product) {
