@@ -2,11 +2,12 @@ const { validationResult } = require("express-validator");
 const Product = require("../models/product");
 
 exports.getCart = async function (req, res, next) {
+  const cartList = req.session.cart;
+  console.log(cartList);
+  if (!cartList) {
+    return res.status(200).json([]);
+  }
   try {
-    const cartList = req.session.cart;
-    if (!cartList) {
-      return res.status(200).json([]);
-    }
     const data = await Product.getDataForCart(cartList);
     res.status(200).json(data);
   } catch (err) {
