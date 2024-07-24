@@ -5,9 +5,8 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const compression = require("compression");
 const helmet = require("helmet");
-const morgan = require("morgan");
+
 const path = require("path");
-// const fs = require("fs");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
@@ -33,7 +32,6 @@ const store = new MongoDBStore({
 
 app.use(helmet());
 app.use(compression());
-app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(
   session({
