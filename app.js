@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const compression = require("compression");
 const helmet = require("helmet");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const path = require("path");
-const fs = require("fs");
+// const fs = require("fs");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
@@ -16,7 +16,6 @@ const orderRouter = require("./routes/order");
 const app = express();
 
 // require("dotenv").config();
-
 // app.use(
 //   cors({
 //     origin: ["http://localhost:3000", "http://localhost:3001"], // Các domain được phép truy cập
@@ -31,14 +30,9 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
-
 app.use(helmet());
 app.use(compression());
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(
   session({
