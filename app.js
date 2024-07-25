@@ -41,7 +41,7 @@ app.use(compression());
 
 app.use(
   session({
-    secret: "44307b99-3bbe-4498-9d3d-f3ba769bb234",
+    secret: "0190e8c4-12e3-73b4-9d28-22f5ad90e6bb",
     resave: false,
     saveUninitialized: true,
     store: store,
