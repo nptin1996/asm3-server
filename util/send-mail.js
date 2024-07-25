@@ -1,7 +1,7 @@
 const path = require("path");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
-
+// require("dotenv").config();
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
