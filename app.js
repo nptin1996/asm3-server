@@ -5,42 +5,51 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const compression = require("compression");
 const helmet = require("helmet");
-
 const path = require("path");
+
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 const chatRouter = require("./routes/chat");
 const orderRouter = require("./routes/order");
+
 const app = express();
-
-// require("dotenv").config();
-
-app.use(
-  cors({
-    origin: [process.env.CLIENT_URL, process.env.ADMIN_URL], // Các domain được phép truy cập
-    methods: "GET,PUT,PATCH,POST,DELETE",
-    credentials: true, // Cho phép gửi cookie
-  })
-);
-
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: "sessions",
 });
 
+// require("dotenv").config();
+
+app.use(
+  cors({
+    origin: [
+      process.env.CLIENT_URL,
+      process.env.ADMIN_URL || "http://localhost:3001",
+    ], // Các domain được phép truy cập
+    methods: "GET,PUT,PATCH,POST,DELETE",
+    credentials: true, // Cho phép gửi cookie
+  })
+);
+
+app.set("trust proxy", 1);
+
 app.use(helmet());
+
 app.use(compression());
 
 app.use(
   session({
-    secret: "secretKeyServerBackEndNodeJSByTinNguyen",
+    secret: "44307b99-3bbe-4498-9d3d-f3ba769bb234",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: store,
     cookie: {
-      maxAge: 3 * 24 * 60 * 60 * 1000, //thời gian tồn tại của cookie là 1 ngày
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 3 * 24 * 60 * 60 * 1000, //thời gian tồn tại của cookie là 3 ngày
     },
   })
 );
