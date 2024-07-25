@@ -1,4 +1,3 @@
-require("dotenv").config();
 const path = require("path");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -43,7 +42,6 @@ module.exports = (data) => {
 
   data.items.forEach((ele) => {
     const splitImage = ele.product.images[0].split("\\");
-    console.log(splitImage);
     attachments.push({
       path: path.join(__dirname, "..", splitImage[0], splitImage[1]),
       cid: ele.product.images[0],
