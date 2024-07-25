@@ -12,13 +12,17 @@ const productRouter = require("./routes/product");
 const cartRouter = require("./routes/cart");
 const chatRouter = require("./routes/chat");
 const orderRouter = require("./routes/order");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 // require("dotenv").config();
 const app = express();
-const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: "sessions",
+});
+
+store.on("error", function (error) {
+  console.log(error);
 });
 
 app.use(
@@ -50,6 +54,12 @@ app.use(
     },
   })
 );
+
+app.use((req, res, next) => {
+  console.log("Session ID:", req.sessionID);
+  console.log("Session:", req.session);
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
