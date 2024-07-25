@@ -42,8 +42,10 @@ module.exports = (data) => {
         </tr>`;
 
   data.items.forEach((ele) => {
+    const splitImage = ele.product.images[0].split("\\");
+    console.log(splitImage);
     attachments.push({
-      path: path.join(__dirname, "..", ele.product.images[0]),
+      path: path.join(__dirname, "..", splitImage[0], splitImage[1]),
       cid: ele.product.images[0],
     });
     html += `<tr>
