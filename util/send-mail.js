@@ -1,5 +1,4 @@
-// require("dotenv").config();
-
+require("dotenv").config();
 const path = require("path");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -84,6 +83,7 @@ module.exports = (data) => {
     },
     function (err) {
       if (err) {
+        console.log(err);
         console.log("Send email failed.");
       }
     }

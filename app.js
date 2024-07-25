@@ -85,6 +85,8 @@ main()
   .then(() => {
     const server = app.listen(process.env.PORT || 5000);
     const io = require("./socket").init(server);
-    io.on("connection", () => {});
+    io.on("connection", () => {
+      console.log("Client connect");
+    });
   })
   .catch((err) => console.log(err));
