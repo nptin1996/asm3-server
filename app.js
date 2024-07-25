@@ -21,10 +21,6 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-store.on("error", function (error) {
-  console.log(error);
-});
-
 app.use(
   cors({
     origin: [
@@ -36,7 +32,8 @@ app.use(
   })
 );
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
+
 app.use(helmet());
 app.use(compression());
 
@@ -54,12 +51,6 @@ app.use(
     },
   })
 );
-
-app.use((req, res, next) => {
-  console.log("Session ID:", req.sessionID);
-  console.log("Session:", req.session);
-  next();
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

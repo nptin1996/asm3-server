@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 // /chat/client
+// khởi động
 router.get(
   "/client",
   (req, res, next) => {
