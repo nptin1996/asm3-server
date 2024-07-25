@@ -13,6 +13,7 @@ const cartRouter = require("./routes/cart");
 const chatRouter = require("./routes/chat");
 const orderRouter = require("./routes/order");
 
+// require("dotenv").config();
 const app = express();
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
@@ -20,12 +21,10 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-// require("dotenv").config();
-
 app.use(
   cors({
     origin: [
-      process.env.CLIENT_URL,
+      process.env.CLIENT_URL || "http://localhost:3000",
       process.env.ADMIN_URL || "http://localhost:3001",
     ], // Các domain được phép truy cập
     methods: "GET,PUT,PATCH,POST,DELETE",
