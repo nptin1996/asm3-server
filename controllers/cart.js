@@ -3,6 +3,7 @@ const Product = require("../models/product");
 
 exports.getCart = async function (req, res, next) {
   const cartList = req.session.cart;
+  // nếu k có session.cart thì sẽ trả về [] vì khi client post thì cart mới đc tạo và lưu vào session
   if (!cartList) {
     return res.status(200).json([]);
   }
@@ -25,7 +26,6 @@ exports.postCart = async function (req, res, next) {
   }
   const productId = req.body.productId;
   const qty = req.body.qty;
-
   try {
     const product = await Product.findById(productId);
     if (!product) {
@@ -45,6 +45,8 @@ exports.postCart = async function (req, res, next) {
       cartList.push({ productId: productId, qty: Number(qty) });
       res.status(201);
     }
+
+    // lưu lại giỏ hàng vào session
     req.session.cart = cartList;
     req.session.save((err) => {
       if (err) throw new Error(err);
@@ -65,8 +67,14 @@ exports.deleteCart = async function (req, res, next) {
       .json({ message: errArr[0].msg + " " + errArr[0].path });
   }
   const productId = req.body.productId;
+  const cart = req.session.cart;
+
+  if (!cart) {
+    return res.status(422).end(); // nếu chưa tạo giỏ hàng trong session mà nhận req delete thì trả lỗi input
+  }
+
   try {
-    const cartList = [...req.session.cart];
+    const cartList = [...cart];
     const product = cartList.find((ele) => ele.productId === productId);
     if (!product) return res.status(422).json({ message: "Invalid product." });
     req.session.cart = cartList.filter((ele) => ele.productId !== productId);

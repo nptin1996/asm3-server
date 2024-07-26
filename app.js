@@ -15,6 +15,7 @@ const orderRouter = require("./routes/order");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 // require("dotenv").config();
+
 const app = express();
 const store = new MongoDBStore({
   uri: process.env.MONGO_URL,
@@ -33,7 +34,7 @@ app.use(
 );
 
 app.set("trust proxy", 1);
-// app.use(helmet());
+app.use(helmet());
 app.use(compression());
 
 app.use(
